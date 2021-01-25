@@ -1,3 +1,12 @@
+//reduce fuction and also a pure function, tales as arguments the current 
+//state and the action and return the state.
+function todos(state=[],action){
+	if (action.type === 'ADD_TODO') {
+		return state.concat([action.todo])
+	}
+	return state
+}
+
 function createStore () {
   //create a function that creates store objects
 	let state     //the state of the store 
