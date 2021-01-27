@@ -34,7 +34,7 @@ function createStore(reducer) {
 
 //App Code
 
-//reduce fuction and also a pure function, tales as arguments the current 
+//reduce fuction and also a pure function, takes as arguments the current 
 //state and the action and return the state.
 function todos(state=[],action){
 	switch(action.type) {
@@ -62,8 +62,16 @@ function goals(state=[],action){
 	}
 }
 
+//Route reducer
+function app(state={},action){
+	return{
+		todos:todos(state.todos,action),
+		goals:goals(state.goals,action),
+	}
+}
 
-const store = createStore(todos)
+
+const store = createStore(app)
 store.subscribe(()=>{
 	console.log('The new state is:',store.getState())
 })
@@ -76,5 +84,38 @@ store.dispatch({
 		name:'Learn Redux',
 		complete:false
 	}
+})
+store.dispatch({
+	type: 'ADD_TODO',
+	todo:{
+		id:1,
+		name:'Learn HTML',
+		complete:true
+	}
+})
+store.dispatch({
+	type: 'REMOVE_TODO',
+	id:1
+
+	
+})
+store.dispatch({
+	type: 'ADD_GOAL',
+	goal:{
+		id:0,
+		name:'Learn Redux',
+	}
+})
+store.dispatch({
+	type: 'ADD_GOAL',
+	goal:{
+		id:1,
+		name:'Learn general',
+		complete:false
+	}
+})
+store.dispatch({
+	type: 'TOGGLE_TODO',
+	id:0
 })
 
