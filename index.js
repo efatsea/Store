@@ -1,13 +1,6 @@
-//reduce fuction and also a pure function, tales as arguments the current 
-//state and the action and return the state.
-function todos(state=[],action){
-	if (action.type === 'ADD_TODO') {
-		return state.concat([action.todo])
-	}
-	return state
-}
+//Library Code
 
-function createStore () {
+function createStore (reducer) {
   //create a function that creates store objects
 	let state     //the state of the store 
 	let listeners = [] //array
@@ -24,23 +17,41 @@ function createStore () {
 
 	//function to update the state. 
 	const dispatch = (action) =>{
-		state = todos(state,action)
+		state = reducer(state,action)
 		listeners.forEach((listener)=>listener())
 	}
+
+	const store = createStore()
+		store.subscribe(()=>{
+			console.log('The new state is:',store.getState())
+	})
+
+	const unsubscribe = store.subscribe(() =>{
+			console.log('The store changed')
+	})
 
   // when createStore is invoked, it will return an object back that invoke the getState method
 	return{
 		getState,
 		subscribe
 	}
+
+ 
 }
 
-const store = createStore()
-store.subscribe(()=>{
-	console.log('The new state is:',store.getState())
-})
+//App Code
 
-const unsubscribe = store.subscribe(() =>{
-	console.log('The store changed')
-})
+//reduce fuction and also a pure function, tales as arguments the current 
+//state and the action and return the state.
+function todos(state=[],action){
+	if (action.type === 'ADD_TODO') {
+		return state.concat([action.todo])
+	}
+	return state
+}
+
+
+
+
+
 
