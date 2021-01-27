@@ -11,7 +11,7 @@ function createStore () {
   //create a function that creates store objects
 	let state     //the state of the store 
 	let listeners = [] //array
-  //a function to get the state
+  //a function to get the state 
 	const getState = () => state
 
   //function that push the data fron subscribe in the listeners
@@ -20,6 +20,12 @@ function createStore () {
 		return() => {
 			listeners=listeners.filter((l) = > l!== listener)
 		}
+	}
+
+	//function to update the state. 
+	const dispatch = (action) =>{
+		state = todos(state,action)
+		listeners.forEach((listener)=>listener())
 	}
 
   // when createStore is invoked, it will return an object back that invoke the getState method
@@ -37,3 +43,4 @@ store.subscribe(()=>{
 const unsubscribe = store.subscribe(() =>{
 	console.log('The store changed')
 })
+
