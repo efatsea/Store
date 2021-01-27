@@ -1,6 +1,6 @@
 //Library Code
 
-function createStore (reducer) {
+function createStore(reducer) {
   //create a function that creates store objects
 	let state     //the state of the store 
 	let listeners = [] //array
@@ -11,7 +11,7 @@ function createStore (reducer) {
 	const subscribe = (listener) =>{
 		listeners.push(listener)
 		return() => {
-			listeners=listeners.filter((l) = > l!== listener)
+			listeners=listeners.filter((l) => l!== listener)
 		}
 	}
 
@@ -21,19 +21,12 @@ function createStore (reducer) {
 		listeners.forEach((listener)=>listener())
 	}
 
-	const store = createStore()
-		store.subscribe(()=>{
-			console.log('The new state is:',store.getState())
-	})
-
-	const unsubscribe = store.subscribe(() =>{
-			console.log('The store changed')
-	})
 
   // when createStore is invoked, it will return an object back that invoke the getState method
 	return{
 		getState,
-		subscribe
+		subscribe,
+		dispatch,
 	}
 
  
@@ -51,7 +44,18 @@ function todos(state=[],action){
 }
 
 
+const store = createStore(todos)
+store.subscribe(()=>{
+	console.log('The new state is:',store.getState())
+})
 
 
-
+store.dispatch({
+	type: 'ADD_TODO',
+	todo:{
+		id:0,
+		name:'Learn Redux',
+		complete:false
+	}
+})
 
