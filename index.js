@@ -40,6 +40,44 @@ const TOGGLE_TODO = 'TOGGLE_TODO'
 const ADD_GOAL = 'ADD_GOAL'
 const REMOVE_GOAL = 'REMOVE_GOAL'
 
+function addTodoAction(todo){
+	return{
+		type:ADD_TODO,
+		todo,
+
+	}
+}
+
+function removeTodoAction(id){
+	return{
+		type: REMOVE_TODO,
+		id,
+		
+	}
+}
+
+function toggleTodoAction(id){
+	return{
+		type:TOGGLE_TODO,
+		id,
+		
+	}
+}
+function addGoalAction(goal){
+	return{
+		type:ADD_GOAL,
+		goal,
+		
+	}
+}
+function removeGoalAction(id){
+	return{
+		type:REMOVE_GOAL,
+		id,
+		
+	}
+}
+
 //reduce fuction and also a pure function, takes as arguments the current 
 //state and the action and return the state.
 function todos(state=[],action){
@@ -83,28 +121,20 @@ store.subscribe(()=>{
 })
 
 
-store.dispatch({
-	type: ADD_TODO,
-	todo:{
-		id:0,
-		name:'Learn Redux',
-		complete:false
-	}
-})
-store.dispatch({
-	type: ADD_TODO,
-	todo:{
+store.dispatch(addTodoAction({
+	id:0,
+	name:'Learn Redux',
+	complete:false
+}))
+store.dispatch(addTodoAction({
 		id:1,
 		name:'Learn HTML',
 		complete:true
-	}
-})
-store.dispatch({
-	type: REMOVE_TODO,
-	id:1
-
 	
-})
+}))
+
+store.dispatch(removeTodoAction(1))
+	
 store.dispatch({
 	type: ADD_GOAL,
 	goal:{
