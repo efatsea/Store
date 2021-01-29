@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Udacity Todos Goals</title>
+</head>
+<body>
+
+	<script type="text/javascript">
+		//Library Code
+
+		function createStore(reducer) {
+		  //create a function that creates store objects
+			let state     //the state of the store 
+			let listeners = [] //array
+		  //a function to get the state 
+			const getState = () => state
+
+		  //function that push the data fron subscribe in the listeners
+			const subscribe = (listener) =>{
+				listeners.push(listener)
+				return() => {
+					listeners=listeners.filter((l) => l!== listener)
+				}
+			}
+
+			//function to update the state. 
+			const dispatch = (action) =>{
+				state = reducer(state,action)
+				listeners.forEach((listener)=>listener())
+			}
+
+
+		  // when createStore is invoked, it will return an object back that invoke the getState method
+			return{
+				getState,
+				subscribe,
+				dispatch,
+			}
+
+		 
+		}
+
+		//App Code
+
+		const ADD_TODO = 'ADD_TODO'
+		const REMOVE_TODO = 'REMOVE_TODO'
+		const TOGGLE_TODO = 'TOGGLE_TODO'
+		const ADD_GOAL = 'ADD_GOAL'
+		const REMOVE_GOAL = 'REMOVE_GOAL'
+
+		function addTodoAction(todo){
+			return{
+				type:ADD_TODO,
+				todo,
+
+			}
+		}
+
+		function removeTodoAction(id){
+			return{
+				type: REMOVE_TODO,
+				id,
+				
+			}
+		}
+
+		function toggleTodoAction(id){
+			return{
+				type:TOGGLE_TODO,
+				id,
+				
+			}
+		}
+		function addGoalAction(goal){
+			return{
+				type:ADD_GOAL,
+				goal,
+				
+			}
+		}
+		function removeGoalAction(id){
+			return{
+				type:REMOVE_GOAL,
+				id,
+				
+			}
+		}
+
+		//reduce fuction and also a pure function, takes as arguments the current 
+		//state and the action and return the state.
+		function todos(state=[],action){
+			switch(action.type) {
+				case ADD_TODO:
+					return state.concat([action.todo])
+				case REMOVE_TODO :
+					return state.filter((todo)=>todo.id !== action.id)
+				case TOGGLE_TODO :
+					return state.map((todo)=> todo.id !==action.id ? todo :
+					Object.assign({}, todo, { complete: !todo.complete}))
+				default :
+					return state
+			}
+			
+		}
+
+		function goals(state=[],action){
+			switch(action.type){
+				case ADD_GOAL :
+					return state.concat([action.goal])
+				case REMOVE_GOAL :
+					return state.filter((goal)=>goal.id !== action.id)
+				default:
+					return state
+			}
+		}
+
+		//Route reducer
+		function app(state={},action){
+			return{
+				todos:todos(state.todos,action),
+				goals:goals(state.goals,action),
+			}
+		}
+
+
+		const store = createStore(app)
+		store.subscribe(()=>{
+			console.log('The new state is:',store.getState())
+		})
+
+
+		store.dispatch(addTodoAction({
+			id:0,
+			name:'Learn Redux',
+			complete:false
+		}))
+		store.dispatch(addTodoAction({
+				id:1,
+				name:'Learn HTML',
+				complete:true
+			
+		}))
+
+		store.dispatch(removeTodoAction(1))
+			
+		store.dispatch({
+			type: ADD_GOAL,
+			goal:{
+				id:0,
+				name:'Learn Redux',
+			}
+		})
+		store.dispatch({
+			type: ADD_GOAL,
+			goal:{
+				id:1,
+				name:'Learn general',
+				complete:false
+			}
+		})
+		store.dispatch({
+			type: TOGGLE_TODO,
+			id:0
+		})
+
+
+	</script>
+</body>
+</html>
