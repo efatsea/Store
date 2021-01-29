@@ -18,6 +18,10 @@
 		<ul id="goals"></ul>
 	</div>
 	<script type="text/javascript">
+		function generateId (){
+			return Math.random().toString(36).substring(2) + (new Date()).getTime().toString(36);
+		}
+
 		//Library Code
 
 		function createStore(reducer) {
@@ -141,39 +145,67 @@
 		})
 
 
-		store.dispatch(addTodoAction({
-			id:0,
-			name:'Learn Redux',
-			complete:false
-		}))
-		store.dispatch(addTodoAction({
-				id:1,
-				name:'Learn HTML',
-				complete:true
+		// store.dispatch(addTodoAction({
+		// 	id:0,
+		// 	name:'Learn Redux',
+		// 	complete:false
+		// }))
+		// store.dispatch(addTodoAction({
+		// 		id:1,
+		// 		name:'Learn HTML',
+		// 		complete:true
 			
-		}))
+		// }))
 
-		store.dispatch(removeTodoAction(1))
+		// store.dispatch(removeTodoAction(1))
 			
-		store.dispatch({
-			type: ADD_GOAL,
-			goal:{
-				id:0,
-				name:'Learn Redux',
-			}
-		})
-		store.dispatch({
-			type: ADD_GOAL,
-			goal:{
-				id:1,
-				name:'Learn general',
-				complete:false
-			}
-		})
-		store.dispatch({
-			type: TOGGLE_TODO,
-			id:0
-		})
+		// store.dispatch({
+		// 	type: ADD_GOAL,
+		// 	goal:{
+		// 		id:0,
+		// 		name:'Learn Redux',
+		// 	}
+		// })
+		// store.dispatch({
+		// 	type: ADD_GOAL,
+		// 	goal:{
+		// 		id:1,
+		// 		name:'Learn general',
+		// 		complete:false
+		// 	}
+		// })
+		// store.dispatch({
+		// 	type: TOGGLE_TODO,
+		// 	id:0
+		// })
+		function addTodo(){
+			const input = document.getElementById('todo')
+			const name = input.value
+			input.value =''
+
+			store.dispatch(addTodoAction({
+				name,
+				complete:false,
+				id: generateId()
+			}))
+		}
+		function addGoal(){
+			const input = document.getElementById('goal')
+			const name = input.value
+			input.value = ''
+
+			store.dispatch(addGoalAction({
+				name,
+				id:generateId()
+			}))
+
+		}
+
+		document.getElementById('todoBtn')
+			.addEventListener('click',addTodo)
+
+		document.getElementById('goalBtn')
+			.addEventListener('click',addGoal)
 
 
 	</script>
