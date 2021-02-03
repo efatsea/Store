@@ -2,6 +2,7 @@
 <html>
 <head>
 	<title>Udacity Todos Goals</title>
+	<link rel="stylesheet" type="text/css" href="style.css">
 	<!--Redux -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/redux/3.7.2/redux.min.js"></script>
 </head>
@@ -9,15 +10,17 @@
 
 	<div>
 		<h1>Todo list</h1>
+		<ul id="todos"></ul>
 		<input id="todo" type="text" placeholder="Add Todo"/>
 		<button id="todoBtn">Add Todo</button>
-		<ul id="todos"></ul>
+		
 	</div>
 	<div>
 		<h1>Goals List</h1>
+		<ul id="goals"></ul>
 		<input id="goal" type="text" placeholder="Add Goal"/>
 		<button id="goalBtn">Add Goal</button>
-		<ul id="goals"></ul>
+		
 	</div>
 	<script type="text/javascript">
 		function generateId (){
@@ -117,15 +120,15 @@
 					return next(action)
 		}
 
-		const logger = (store)=>(next)=>(action){
+		const logger = (store)=>(next)=>(action)=>{
 			console.group(action.type)
 				console.log('The action:',action)
 				const result = next(action)
 				console.log('The new state:' , store.getState())
 			console.groupEnd()
-			reutn result
+			return result
 		}
-=
+
 		const store = Redux.createStore(Redux.combineReducers({todos,
 			goals,
 		}),Redux.applyMiddleware(checker,logger))
