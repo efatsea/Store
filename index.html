@@ -231,7 +231,7 @@
 
 		function List (props) {
 	      return (
-	        <ul>
+	        <ul className='list'>
 	          {props.items.map((item) => (
 	            <li key={item.id}>
 	              <span
@@ -269,7 +269,7 @@
 			}
 			render(){
 				return(
-					<div>
+					<div className='todos'>
 						<h1>Todo List</h1>
 						<input
 							type='text'
@@ -305,7 +305,7 @@
 
 			render(){
 				return(
-					<div>
+					<div className='goals'>
 						<h1>Goals</h1>
 						<input
 							type='text'
@@ -342,7 +342,7 @@
 				}
 
 				return(
-					<div>
+					<div className='container'>
 						<Todos todos={todos} store={this.props.store}/>
 						<Goals goals={goals} store={this.props.store}/>
 					</div>
